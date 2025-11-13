@@ -3,7 +3,6 @@
 ###
 A simple 1 player game of tic-tec-toe, user play 
 against com added with game scores.
-###
 ## ⚙️ technology used:
 ###
 - HTML
