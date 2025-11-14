@@ -1,4 +1,8 @@
 // Tic-Tac-Toe Game 
+// next :
+// - stat new game button 
+// - score section 
+// - loacl storage implament
 // =====================================
 
 // Selector section 
@@ -10,6 +14,9 @@ const cells = document.querySelectorAll('.board span');
 const newGame = document.getElementById('b-new-game')
 // getting messages element
 let gameMessage = document.getElementById('message-box');
+
+// start game btn
+let startGame = false;
 
 // Creating Winning patterns combos -
 // (rows,columns,diagnoal)
@@ -23,23 +30,28 @@ const winningPatterns = [
 let currentPlayer = "X";
 let gameOver = false;
 
+// Local storage section 
+const gameScore = JSON.parse(localStorage.getItem('score'));
+console.log(gameScore)
+
 // Functions section 
 // Main - creating looping conditions to check for 
 // winner every turn 
 const checkForWin = () =>{
     // loop through winning patterns 
     for(let combo of winningPatterns){
+        // settings variables for each cell in combo set
         let [a,b,c] = combo;
-
+        // getting inner cell X or O
         let cellA = document.getElementById(a).innerHTML;
         let cellB = document.getElementById(b).innerHTML;
         let cellC = document.getElementById(c).innerHTML;
         
-        
-        // checking for win
+        // condition - checking metching cell in each combo cell
+        // if true then X or O win
         if(cellA && cellA == cellB && cellA == cellC ){
             gameMessage.innerHTML = `<p class='messages'>${cellA} Wins!</p>`;
-            gameOver = true
+            gameOver = true;
             return true
         }   
     }
@@ -51,25 +63,24 @@ const checkForWin = () =>{
         gameOver = true
         return true
     }
-    return false
+    return false;
 };
 
-
-// Reaseting game 
+// Reaseting game - clearing all cells  
 const gameReset = () =>{
-    cells.forEach(cell => cell.innerHTML = "")
-    gameMessage.innerHTML = ""
-    currentPlayer = 'X'
-    gameOver = false
-}
+    cells.forEach(cell => cell.innerHTML = "");
+    gameMessage.innerHTML = "";
+    currentPlayer = 'X';
+    gameOver = false;
+};
 
 // Computer - creating rendom cell pick 
 const secondPlayer = () =>{
-    let pH = []
+    let pH = [];
     for(let i = 0; i < cells.length; i++){
-       pH.push(cells[i].innerHTML)
+       pH.push(cells[i].innerHTML);
     }
-}
+};
 
 // Current player Game play - Click event 
 cells.forEach(cell =>{
@@ -78,7 +89,6 @@ cells.forEach(cell =>{
         // condition : check if cell is empty
         if(e.target.innerHTML === ""){
             e.target.innerHTML = currentPlayer;
-            secondPlayer()
             // condition : check for winner player,
             // and change player turn 
             if(!checkForWin()){
