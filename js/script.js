@@ -31,7 +31,8 @@ let currentPlayer = "X";
 let gameOver = false;
 
 // Local storage section 
-const gameScore = JSON.parse(localStorage.getItem('score'));
+localStorage.clear();
+let gameScore = JSON.parse(localStorage.getItem('score'));
 console.log(gameScore)
 
 // Functions section 
@@ -50,6 +51,7 @@ const checkForWin = () =>{
         // condition - checking metching cell in each combo cell
         // if true then X or O win
         if(cellA && cellA == cellB && cellA == cellC ){
+            saveScoreData(cellA)
             gameMessage.innerHTML = `<p class='messages'>${cellA} Wins!</p>`;
             gameOver = true;
             return true
@@ -82,6 +84,18 @@ const secondPlayer = () =>{
     }
 };
 
+// score board - saving to local storage 
+const saveScoreData = (e) =>{
+    if(gameScore === null){
+        gameScore = [];
+        let scoreData = {score:e,losses:0,wins:0};
+        gameScore.push(scoreData);
+    }
+    // store new data in local browser storage
+    localStorage.setItem("score",JSON.stringify(gameScore));
+}
+
+console.log(gameScore)
 // Current player Game play - Click event 
 cells.forEach(cell =>{
     cell.addEventListener('click', e =>{
