@@ -5,7 +5,8 @@
 // - loacl storage implament
 // =====================================
 
-// Selector section 
+// ================ Selector section ================
+
 // getting game board 
 let board = document.getElementsByClassName('hide')[0];
 // getting all cells 
@@ -14,6 +15,8 @@ const cells = document.querySelectorAll('.board span');
 const newGame = document.getElementById('b-new-game')
 // getting messages element
 let gameMessage = document.getElementById('message-box');
+// scores display 
+const scoreDisplay = document.querySelectorAll('.display li span');
 
 // start game btn
 let startGame = false;
@@ -30,12 +33,29 @@ const winningPatterns = [
 let currentPlayer = "X";
 let gameOver = false;
 
-// Local storage section 
-localStorage.clear();
-let gameScore = JSON.parse(localStorage.getItem('score'));
-console.log(gameScore)
+// ================ Local storage section ================
 
-// Functions section 
+let gameScore = JSON.parse(localStorage.getItem('score')) || [{score:0,losses:0,win:0}];
+
+// ================ Functions section ================
+
+// displaying scores 
+const updateDisplay = () =>{
+    for(let i = 0; i < scoreDisplay.length; i++){
+        if(scoreDisplay[i].classList.contains('score')){
+            scoreDisplay[i].textContent = gameScore[0].score;
+        }
+        else if(scoreDisplay[i].classList.contains('losses')){
+            scoreDisplay[i].textContent = gameScore[0].losses;
+        }
+        else if(scoreDisplay[i].classList.contains('wins')){
+            scoreDisplay[i].textContent = gameScore[0].win;
+        }  
+    }    
+};
+
+updateDisplay();
+
 // Main - creating looping conditions to check for 
 // winner every turn 
 const checkForWin = () =>{
@@ -51,11 +71,25 @@ const checkForWin = () =>{
         // condition - checking metching cell in each combo cell
         // if true then X or O win
         if(cellA && cellA == cellB && cellA == cellC ){
-            saveScoreData(cellA)
+            // saveScoreData(cellA)
+            if(cellA == 'X'){
+                let newData = parseInt(gameScore[0].win);
+                newData += 1;
+                gameScore[0].win = newData;
+                localStorage.setItem('score', JSON.stringify(gameScore));
+                updateDisplay()
+            }
+            if(cellA == 'O'){
+                let newData = parseInt(gameScore[0].losses);
+                newData += 1;
+                gameScore[0].losses = newData;
+                localStorage.setItem('score', JSON.stringify(gameScore));
+                updateDisplay()                
+            }
             gameMessage.innerHTML = `<p class='messages'>${cellA} Wins!</p>`;
             gameOver = true;
             return true
-        }   
+        }
     }
     
     // checking for draw 
@@ -85,17 +119,16 @@ const secondPlayer = () =>{
 };
 
 // score board - saving to local storage 
-const saveScoreData = (e) =>{
+const saveScoreData = () =>{
     if(gameScore === null){
         gameScore = [];
-        let scoreData = {score:e,losses:0,wins:0};
+        let scoreData = {score:0,losses:0,wins:0};
         gameScore.push(scoreData);
     }
     // store new data in local browser storage
     localStorage.setItem("score",JSON.stringify(gameScore));
 }
 
-console.log(gameScore)
 // Current player Game play - Click event 
 cells.forEach(cell =>{
     cell.addEventListener('click', e =>{
@@ -111,6 +144,8 @@ cells.forEach(cell =>{
         }
     })
 })
+
+// ================ Event listener section ================
 
 // starting new game 
 newGame.addEventListener('click',gameReset)
