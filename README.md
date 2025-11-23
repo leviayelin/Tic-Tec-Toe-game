@@ -1,8 +1,8 @@
 # 🎮 Tic-Tec-Toe-game
 ## 🧑‍💻 about 
 ###
-A simple 1 player game of tic-tec-toe, user play 
-against com added with game scores.
+A simple 2 player game of tic-tec-toe, users play 
+against each other added with game scores.
 ## ⚙️ technology used:
 ###
 - HTML
@@ -13,5 +13,6 @@ against com added with game scores.
 ###
 - board game
 - reset game button
+- score board 
 
   
