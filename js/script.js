@@ -35,21 +35,18 @@ let gameOver = false;
 
 // ================ Local storage section ================
 
-let gameScore = JSON.parse(localStorage.getItem('score')) || [{score:0,losses:0,win:0}];
+let gameScore = JSON.parse(localStorage.getItem('score')) || [{O_player:0,X_player:0}];
 
 // ================ Functions section ================
 
 // displaying scores 
 const updateDisplay = () =>{
     for(let i = 0; i < scoreDisplay.length; i++){
-        if(scoreDisplay[i].classList.contains('score')){
-            scoreDisplay[i].textContent = gameScore[0].score;
+        if(scoreDisplay[i].classList.contains('O')){
+            scoreDisplay[i].textContent = gameScore[0].O_player;
         }
-        else if(scoreDisplay[i].classList.contains('losses')){
-            scoreDisplay[i].textContent = gameScore[0].losses;
-        }
-        else if(scoreDisplay[i].classList.contains('wins')){
-            scoreDisplay[i].textContent = gameScore[0].win;
+        else if(scoreDisplay[i].classList.contains('X')){
+            scoreDisplay[i].textContent = gameScore[0].X_player;
         }  
     }    
 };
@@ -73,16 +70,16 @@ const checkForWin = () =>{
         if(cellA && cellA == cellB && cellA == cellC ){
             // saveScoreData(cellA)
             if(cellA == 'X'){
-                let newData = parseInt(gameScore[0].win);
+                let newData = parseInt(gameScore[0].X_player);
                 newData += 1;
-                gameScore[0].win = newData;
+                gameScore[0].X_player = newData;
                 localStorage.setItem('score', JSON.stringify(gameScore));
                 updateDisplay()
             }
             if(cellA == 'O'){
-                let newData = parseInt(gameScore[0].losses);
+                let newData = parseInt(gameScore[0].O_player);
                 newData += 1;
-                gameScore[0].losses = newData;
+                gameScore[0].O_player = newData;
                 localStorage.setItem('score', JSON.stringify(gameScore));
                 updateDisplay()                
             }
@@ -122,7 +119,7 @@ const secondPlayer = () =>{
 const saveScoreData = () =>{
     if(gameScore === null){
         gameScore = [];
-        let scoreData = {score:0,losses:0,wins:0};
+        let scoreData = {O_player:0,X_player:0};
         gameScore.push(scoreData);
     }
     // store new data in local browser storage
