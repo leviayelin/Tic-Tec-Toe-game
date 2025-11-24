@@ -88,9 +88,17 @@ body{
 /* Buttons  */
 
 /* messages */
+#message-box{
+    width:500px;
+    position:absolute;
+    background-color: #fff;
+    top:20%;
+}
+
 .messages{
+    height:350px;
     margin:10px;
-    padding:20px;
+    padding:30px;
     display:grid;
     place-items: center;
     border:3px solid coral;
